@@ -1,16 +1,44 @@
-# React + Vite
+# 🖥️ Simulador de Algoritmos de Reemplazo de Páginas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un simulador interactivo y visual desarrollado para ilustrar la gestión de memoria en Sistemas Operativos. Esta herramienta permite ingresar una secuencia de referencia de páginas web y visualizar, paso a paso, cómo los diferentes algoritmos asignan los marcos de memoria, calculando automáticamente los aciertos (hits) y los fallos de página (page faults).
 
-Currently, two official plugins are available:
+## 🎓 Contexto Académico
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Universidad:** Universidad Nacional Mayor de San Marcos (UNMSM)
+* **Facultad:** Ingeniería de Sistemas e Informática
+* **Ciclo:** V Ciclo
+* **Curso:** Sistemas Operativos
+* **Equipo:** Grupo 3
+  * Luis Mario Saldaña Sánchez (22200123)
+  * [Nombre Compañero 2] ([Código])
+  * [Nombre Compañero 3] ([Código])
 
-## React Compiler
+## ✨ Características Principales
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Interfaz Minimalista (Glassmorphism):** Diseño moderno, oscuro y formal enfocado en la legibilidad de los datos.
+* **Simulación Paso a Paso:** Tabla dinámica que muestra la evolución del contenido de la memoria (marcos) en cada instante de tiempo $(t)$.
+* **Algoritmos Implementados:**
+  * **FIFO (First-In, First-Out):** Representación visual mediante una estructura de cola con desplazamiento vertical.
+  * **Algoritmo de Reloj / LRU:** Implementación gráfica donde las páginas referenciadas (aciertos) se priorizan ascendiendo al marco superior, empujando a las menos usadas hacia el fondo para su eventual reemplazo.
+* **Configuración Dinámica:**
+  * Soporte para secuencias de referencia de longitud variable.
+  * Selección de cantidad de marcos de memoria (3 a 6 marcos).
+* **Cálculo en Tiempo Real:** Contabilización automática de la tasa de aciertos y la cantidad total de fallos de página.
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologías Utilizadas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Este proyecto fue construido utilizando herramientas modernas de desarrollo frontend:
+
+* **React (v18):** Librería principal para la construcción de la interfaz de usuario mediante componentes funcionales y manejo de estados.
+* **Vite:** Herramienta de *build* y servidor de desarrollo local extremadamente rápido.
+* **Tailwind CSS (v4):** Framework de CSS *utility-first* utilizado para el diseño responsivo, las animaciones y el efecto *glassmorphism* sin necesidad de escribir CSS tradicional.
+* **JavaScript (ES6+):** Lógica pura para el procesamiento de los arreglos y la matemática de los algoritmos de reemplazo.
+
+## 🚀 Instalación y Ejecución Local
+
+Sigue estos pasos para levantar el entorno de desarrollo en tu máquina local:
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/TU-USUARIO/simulador-memoria-so.git](https://github.com/TU-USUARIO/simulador-memoria-so.git)
+   cd simulador-memoria-so
