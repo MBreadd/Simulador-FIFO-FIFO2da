@@ -1,29 +1,39 @@
-import React from 'react';
+import React from "react";
 
-export default function VisualTable({ result, framesCount, algorithm }) {
+export default function VisualTable({ result, framesCount }) {
   if (!result || result.length === 0) return null;
 
-  const totalFaults = result.filter(step => step.isFault).length;
+  const totalFaults = result.filter((step) => step.isFault).length;
   const totalHits = result.length - totalFaults;
   const rows = Array.from({ length: framesCount }, (_, i) => i);
 
+  // Función de Gradiente Visual: Índice 0 es la más nueva, Índice final es la más vieja
+  const getAgingStyle = (rowIndex) => {
+    if (rowIndex === 0) return "text-zinc-100 font-bold"; // Reciente
+    if (rowIndex === 1) return "text-zinc-300";
+    if (rowIndex === framesCount - 1) return "text-zinc-600 opacity-50"; // A punto de salir
+    return "text-zinc-400"; // Intermedias
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Resumen minimalista */}
+    <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex gap-4">
         <div className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800 rounded-xl px-6 py-4 flex items-center gap-4">
-          <span className="text-zinc-400 text-sm font-medium">Fallos de página:</span>
-          <span className="text-2xl font-semibold text-red-400">{totalFaults}</span>
+          <span className="text-zinc-400 text-sm font-medium">Fallos:</span>
+          <span className="text-2xl font-semibold text-red-400">
+            {totalFaults}
+          </span>
         </div>
         <div className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800 rounded-xl px-6 py-4 flex items-center gap-4">
           <span className="text-zinc-400 text-sm font-medium">Aciertos:</span>
-          <span className="text-2xl font-semibold text-emerald-400">{totalHits}</span>
+          <span className="text-2xl font-semibold text-emerald-400">
+            {totalHits}
+          </span>
         </div>
       </div>
 
-      {/* Tabla Técnica */}
       <div className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800 rounded-xl overflow-hidden">
-        <div className="overflow-x-auto custom-scrollbar">
+        <div className="overflow-x-auto custom-scrollbar pb-2">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr>
@@ -31,7 +41,10 @@ export default function VisualTable({ result, framesCount, algorithm }) {
                   Página
                 </th>
                 {result.map((step, idx) => (
-                  <th key={idx} className="p-4 text-center border-b border-zinc-800 bg-zinc-900/20 text-zinc-300 font-mono text-lg min-w-[60px]">
+                  <th
+                    key={idx}
+                    className="p-4 text-center border-b border-zinc-800 bg-zinc-900/20 text-zinc-300 font-mono text-lg min-w-[60px]"
+                  >
                     {step.page}
                   </th>
                 ))}
@@ -39,38 +52,38 @@ export default function VisualTable({ result, framesCount, algorithm }) {
             </thead>
             <tbody className="divide-y divide-zinc-800/50">
               {rows.map((rowIndex) => (
-                <tr key={rowIndex} className="hover:bg-zinc-800/20 transition-colors">
+                <tr
+                  key={rowIndex}
+                  className="hover:bg-zinc-800/20 transition-colors"
+                >
                   <td className="p-4 text-xs font-medium text-zinc-500 bg-zinc-950/80 sticky left-0 z-10">
                     Marco {rowIndex + 1}
                   </td>
                   {result.map((step, stepIdx) => {
                     const pageInFrame = step.frames[rowIndex];
-                    const isPointerHere = algorithm === 'SECOND_CHANCE' && step.pointer === rowIndex;
-                    const referenceBit = algorithm === 'SECOND_CHANCE' && step.bits ? step.bits[rowIndex] : null;
+                    // Si es la última columna (el paso actual), le ponemos un fondo especial suave
+                    const isLatestStep = stepIdx === result.length - 1;
 
                     return (
-                      <td key={stepIdx} className={`p-4 text-center font-mono relative ${isPointerHere ? 'bg-zinc-800/40' : ''}`}>
+                      <td
+                        key={stepIdx}
+                        className={`p-4 text-center font-mono relative transition-all ${isLatestStep ? "bg-zinc-800/30" : ""}`}
+                      >
                         {pageInFrame !== null ? (
-                          <div className="flex flex-col items-center">
-                            <span className={`text-sm ${isPointerHere ? 'text-zinc-100 font-semibold' : 'text-zinc-400'}`}>
-                              {pageInFrame}
-                            </span>
-                            {referenceBit !== null && (
-                              <span className="text-[10px] text-zinc-600 mt-0.5">
-                                [b:{referenceBit}]
-                              </span>
-                            )}
-                          </div>
+                          <span
+                            className={`text-sm transition-colors duration-300 ${getAgingStyle(rowIndex)}`}
+                          >
+                            {pageInFrame}
+                          </span>
                         ) : (
-                          <span className="text-zinc-700">-</span>
+                          <span className="text-zinc-800">-</span>
                         )}
                       </td>
                     );
                   })}
                 </tr>
               ))}
-              
-              {/* Resultado */}
+
               <tr>
                 <td className="p-4 text-xs font-medium text-zinc-500 bg-zinc-950/80 sticky left-0 z-10">
                   Estado
